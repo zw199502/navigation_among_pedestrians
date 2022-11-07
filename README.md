@@ -1,2 +1,4 @@
 # navigation_among_pedestrians
-reinforcement learning
+reinforcement learning based navigation algorithms among pedestrians
+
+# prerequisite
