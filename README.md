@@ -27,3 +27,7 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - select whether to use imitation learning or not in the crowd_nav/train.py file, ```parser.add_argument('--il_random', default=False, action='store_true')```
 - revise the log file name in crowd_nav/train.py file, ```parser.add_argument('--output_dir', type=str, default='data/sarl')```
 - train your model in the directory crowd_nav, ```python train.py --policy rgl```, your can replace the rgl with sarl, cadrl, and lstm_rl.
+
+### MRLCF
+- train your model, ```python train.py --logdir ./logdir/online/1 --configs online```, another configs 'quadruped_motion_capture' is used for a quadruped robot. if your want to use your own robots, please revise the configs.yaml.
+- visualize the training, ```tensorboard --logdir ./logdir```.
