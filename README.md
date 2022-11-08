@@ -13,3 +13,4 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - if you are lack of any packages, please install them by yourselves
 
 # fold introduction
+### crowd_nav_lidar_scan_ego
