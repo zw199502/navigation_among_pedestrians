@@ -14,5 +14,8 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 
 # fold introduction
 ### crowd_nav_lidar_scan_ego
-- fisrt, enter the directory C_library and compile the cython file
+- enter the directory C_library and compile the cython file
 ```python setup.py build_ext --inplace``` 
+- revise the configuration from train.py
+- particularly, select whether to use imitation learning or not in the train.py file
+```parser.add_argument('--if_orca', default=True, action='store_true')```
