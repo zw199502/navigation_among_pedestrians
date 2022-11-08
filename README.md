@@ -10,4 +10,6 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - tensorflow-probability, the version should match the version of tensorflow
 - Python-RVO2,https://github.com/sybrenstuvel/Python-RVO2, only Linux supported
 - rospks, if you want to use ROS to deploy your algorithm on mobile robots
-- if you are lack of any packages, please install by yourselves
+- if you are lack of any packages, please install them by yourselves
+
+# fold introduction
