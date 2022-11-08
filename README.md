@@ -14,3 +14,5 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 
 # fold introduction
 ### crowd_nav_lidar_scan_ego
+- fisrt, enter the directory C_library and compile the cython file
+```python setup.py build_ext --inplace``` 
