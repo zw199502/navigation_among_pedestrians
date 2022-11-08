@@ -11,6 +11,7 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - Python-RVO2,https://github.com/sybrenstuvel/Python-RVO2, only Linux supported
 - rospks, if you want to use ROS to deploy your algorithm on mobile robots
 - if you are lack of any packages, please install them by yourselves
+- please create two environments with anaconda, one for pytorch and the other for tensorflow
 
 # fold introduction
 ### crowd_nav_lidar_scan_ego
@@ -20,3 +21,9 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - particularly, select whether to use imitation learning or not in the train.py file
 ```parser.add_argument('--if_orca', default=True, action='store_true')```, and specify your GPU ```gpu_index = 0```. Normally, if without imitation learning, the training result will be very terrible.
 - train your model, ```python train.py```.
+
+### RelationalGraphLearning
+- enter the fold RelationalGraphLearning and install the project, ```pip install -e .```
+- select whether to use imitation learning or not in the crowd_nav/train.py file, ```parser.add_argument('--il_random', default=False, action='store_true')```
+- revise the log file name in crowd_nav/train.py file, ```parser.add_argument('--output_dir', type=str, default='data/sarl')```
+- train your model in the directory crowd_nav, ```python train.py --policy rgl```, your can replace the rgl with sarl, cadrl, and lstm_rl.
