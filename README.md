@@ -3,3 +3,11 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 
 # prerequisite
 - pytorch, the version depends on your device. We found that the code from https://github.com/ChanganVR/RelationalGraphLearning doesn't support GPU.
+- Cython
+- socialforce, https://github.com/ChanganVR/socialforce
+- gym
+- tensorflow-gpu, version >= 2.4
+- tensorflow-probability, the version should match the version of tensorflow
+- Python-RVO2,https://github.com/sybrenstuvel/Python-RVO2, only Linux supported
+- rospks, if you want to use ROS to deploy your algorithm on mobile robots
+- if you are lack of any packages, please install by yourselves
