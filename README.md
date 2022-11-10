@@ -10,6 +10,7 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - tensorflow-probability, the version should match the version of tensorflow
 - Python-RVO2,https://github.com/sybrenstuvel/Python-RVO2, only Linux supported
 - rospks, if you want to use ROS to deploy your algorithm on mobile robots
+- ros-navigation and ros-gmapping, optional
 - LCM, if you use Unitree A1, https://github.com/unitreerobotics/unitree_legged_sdk/tree/v3.3.4
 - Velodyne Lidar, https://github.com/ros-drivers/velodyne
 - if you are lack of any packages, please install them by yourselves
@@ -42,3 +43,10 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - speed_calibration.launch, the speed command does not match real speed, e.g. if you send forward speed 0.3m/s, the real speed may be 0.2m/s
 - unitree_planning, receive the command velocities and control the real robot
 - please run the launch file in the ```sudo su``` mode to get the permission of memory
+
+### A_LOAM
+- it is a ros package, please compile it with ```catkin_make```
+- aloam_velodyne_VLP16.launch, SLAM algorithm in 3D space to localize the robot
+- human_detection.launch, detect humans on a specific area and localize the robot
+- gmapping.launch, create grid map on 2D plane
+- quadruped_dwa.launch, move_base
