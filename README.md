@@ -59,3 +59,4 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - fourth, run the DRL-based motion planner
 - please source all ros packages in the ~/.bashrc file, like ```source XXX/devel/setup.bash```
 - please study our source codes for more details
+- please feel free to contact us if you have any problems, zhu.wei.r5@dc.tohoku.ac.jp
