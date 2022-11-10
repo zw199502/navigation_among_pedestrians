@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="unitree_legged_sdk" type="speed_calibration" name="speed_calibration_node" output="screen" />
+</launch>

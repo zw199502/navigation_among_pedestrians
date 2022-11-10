@@ -1,0 +1,37 @@
+<launch>
+  <arg name="server" default="192.168.1.115"/>
+  <node pkg="vrpn_client_ros" type="vrpn_client_node" name="vrpn_client_node" output="screen">
+    <rosparam subst_value="true">
+      server: $(arg server)
+      port: 3883
+      frame_id: world
+      broadcast_tf: true
+      # Must either specify refresh frequency > 0.0, or a list of trackers to create
+      refresh_tracker_frequency: 0.05
+      #trackers:
+      #- FirstTracker
+      #- SecondTracker
+      # broadcast frame data: on
+      # Local intrface: 192.168.1.116
+      # rigid body: on
+      # Up axis: ZUP
+      # Transmission Type: Multicast
+      # Multicast Interface: 224.0.0.1
+      # Broadcast VRPN Data: on
+      # VRPN Broadcast Port: 3883
+
+      # Broadcast Frame Data: checked
+      # Local Interface: checked
+      # Rigid Bodies: checked
+      # Multicast Interface: checked
+      # Broadcast VRPN Data: checked
+      # VRPN Broadcast Port: checked
+      # the direction toward the robotic arm is the x axis
+      # the direction toward Yan is the y axis
+    </rosparam>
+  </node>
+  <!--include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" /-->
+  <!--node pkg="scan2d_imu" type="scan2d_imu_node" name="dynamic_navigation_scan" output="screen" /-->
+  <!--node pkg="scan2d_quadruped" type="scan2d_quadruped_node" name="static_navigation_scan" output="screen" /-->
+</launch>
+

@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="unitree_legged_sdk" type="control_via_keyboard" name="node_control_via_keyboard" output="screen"/>
+    <node pkg="unitree_legged_sdk" type="unitree_planning" name="unitree_planning_node" output="screen" />
+</launch>
