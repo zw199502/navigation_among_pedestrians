@@ -41,3 +41,4 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - control_via_keyboard, control the robot via keyboard
 - speed_calibration.launch, the speed command does not match real speed, e.g. if you send forward speed 0.3m/s, the real speed may be 0.2m/s
 - unitree_planning, receive the command velocities and control the real robot
+- please run the launch file in the ```sudo su``` mode to get the permission of memory
