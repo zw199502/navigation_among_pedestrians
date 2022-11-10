@@ -34,7 +34,7 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - visualize the training, ```tensorboard --logdir ./logdir```
 
 ### unitree_legged_sdk
-- this is a ros package, please compile it with ```catkin_mak```
+- this is a ros package, please compile it with ```catkin_make```
 - motion_capture.launch, if you have a motion capture system to localize the robot
 - control_via_keyboard, control the robot via keyboard
 - speed_calibration.launch, the speed command does not match real speed, e.g. if you send forward speed 0.3m/s, the real speed may be 0.2m/s
