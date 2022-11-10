@@ -10,6 +10,7 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - tensorflow-probability, the version should match the version of tensorflow
 - Python-RVO2,https://github.com/sybrenstuvel/Python-RVO2, only Linux supported
 - rospks, if you want to use ROS to deploy your algorithm on mobile robots
+- LCM, if you use Unitree A1, https://github.com/unitreerobotics/unitree_legged_sdk/tree/v3.3.4
 - if you are lack of any packages, please install them by yourselves
 - please create two environments with anaconda, one for pytorch and the other for tensorflow
 
@@ -31,3 +32,10 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 ### MRLCF
 - train your model, ```python train.py --logdir ./logdir/online/1 --configs online```, another configs 'quadruped_motion_capture' is used for a quadruped robot. if your want to use your own robots, please revise the configs.yaml
 - visualize the training, ```tensorboard --logdir ./logdir```
+
+### unitree_legged_sdk
+- this is a ros package, please compile it with ```catkin_mak```
+- motion_capture.launch, if you have a motion capture system to localize the robot
+- control_via_keyboard, control the robot via keyboard
+- speed_calibration.launch, the speed command does not match real speed, e.g. if you send forward speed 0.3m/s, the real speed may be 0.2m/s
+- unitree_planning, receive the command velocities and control the real robot
