@@ -14,6 +14,7 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - Velodyne Lidar, https://github.com/ros-drivers/velodyne
 - if you are lack of any packages, please install them by yourselves
 - please create two environments with anaconda, one for pytorch and the other for tensorflow
+- we are using ubuntu20.04 and ros--noetic. If you use other versions, you may have some problems.
 
 # fold introduction
 ### crowd_nav_lidar_scan_ego
