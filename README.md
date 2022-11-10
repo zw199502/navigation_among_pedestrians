@@ -47,6 +47,15 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 ### A_LOAM
 - it is a ros package, please compile it with ```catkin_make```
 - aloam_velodyne_VLP16.launch, SLAM algorithm in 3D space to localize the robot
-- human_detection.launch, detect humans on a specific area and localize the robot
+- human_detection.launch, detect humans on a specific area and localize the robot.
 - gmapping.launch, create grid map on 2D plane
 - quadruped_dwa.launch, move_base
+
+# Real experiments
+- the robot moves on a 4x4m area
+- first, compile your Velodyne ros package, connect the Velodyne Lidar sensor, and use the command ```curl http://192.168.1.201/cgi/short_dist --data "enable=on"``` to shorten the default minimum range of the Lidar. The default minimum range is 0.5m and the shorted range is 0.1m. Although the range is shortened, the accuracy and stability are degraded
+- second, compile the A_LOAM ros package, ```roslauch  roslaunch aloam_velodyne human_detection.launch```. you need to wait 5 seconds and then let pedestrians move into the area.
+- third, compile the unitree ros package, ```roslaunch unitree_legged_sdk unitree_planning.launch```
+- fourth, run the DRL-based motion planner
+- please source all ros packages in the ~/.bashrc file, like ```source XXX/devel/setup.bash```
+- please study our source codes for more details
