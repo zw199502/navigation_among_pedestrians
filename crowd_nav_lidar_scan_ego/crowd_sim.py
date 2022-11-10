@@ -78,8 +78,8 @@ class CrowdSim:
         self.case_capacity = {'train': np.iinfo(np.uint32).max - 2000, 'val': 1000, 'test': 1000}
         self.case_size = {'train': np.iinfo(np.uint32).max - 2000, 'val': 100, 'test': 500}
 
-        margin = square_width / 2.0
-        # margin = 35.0  
+        # margin = square_width / 2.0
+        margin = 35.0  
         # here, more lines can be added to simulate obstacles
         self.lines = [[(-margin, -margin), (-margin,  margin)], \
                         [(-margin,  margin), ( margin,  margin)], \
