@@ -37,7 +37,7 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - visualize the training, ```tensorboard --logdir ./logdir```
 
 ### ORCA
-- train your model, ```python ORCA_policy.py```
+- run orca policy, ```python ORCA_policy.py```
 - change the human number in crowd_sim.py, ```self.human_num = 5```
 
 ### unitree_legged_sdk
