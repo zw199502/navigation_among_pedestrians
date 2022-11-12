@@ -25,6 +25,7 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - particularly, select whether to use imitation learning or not in the train.py file
 ```parser.add_argument('--if_orca', default=True, action='store_true')```, and specify your GPU ```gpu_index = 0```. Normally, if without imitation learning, the training result will be very terrible
 - train your model, ```python train.py```
+- test, ```python test.py```, load your own network weights ```model_weight_file = os.path.join(args.output_dir, 'weight_episode_12000.h5')```
 
 ### RelationalGraphLearning
 - enter the fold RelationalGraphLearning and install the project, ```pip install -e .```
