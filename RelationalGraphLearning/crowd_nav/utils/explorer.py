@@ -109,7 +109,8 @@ class Explorer(object):
                                                        average(average_returns)))
         if phase in ['val', 'test']:
             total_time = sum(success_times + collision_times + timeout_times + outside_times)
-            logging.info('Steps: {:d}, Frequency of being in danger: {:.2f} and average min separate distance in danger: {:.2f}'.
+            if self.memory is not None:
+                logging.info('Steps: {:d}, Frequency of being in danger: {:.2f} and average min separate distance in danger: {:.2f}'.
                          format(self.memory.count, discomfort / total_time, average(min_dist)))
             self.success_rate_array.append(np.array([self.memory.count, success_rate]))
             np.savetxt(self.name + '_success_rate.txt', np.array(self.success_rate_array))
