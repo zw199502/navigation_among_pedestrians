@@ -36,7 +36,7 @@ def main(args):
                 model_weights = os.path.join(args.model_dir, sorted(os.listdir(args.model_dir))[-1])
             logging.info('Loaded RL weights')
         else:
-            model_weights = os.path.join(args.model_dir, 'best_val.pth')
+            model_weights = os.path.join(args.model_dir, 'rl_model_4.pth')
             logging.info('Loaded RL weights with best VAL')
 
     else:
