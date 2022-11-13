@@ -89,7 +89,7 @@ if __name__ == '__main__':
     parser.add_argument('--v_sample_num', type=int, default='9')    # odd integer
     # train policy
     parser.add_argument('--policy', type=str, default='lidar_dqn')
-    parser.add_argument('--output_dir', type=str, default='data4/output')
+    parser.add_argument('--output_dir', type=str, default='data/output_orca')
     parser.add_argument('--gpu', default=True, action='store_true')
     args = parser.parse_args()
 
