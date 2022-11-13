@@ -417,6 +417,7 @@ class CrowdSim(gym.Env):
                 human_circle = plt.Circle(human.get_position(), human.radius, fill=False, color='b')
                 self.ax.add_artist(human_circle)
             self.ax.add_artist(plt.Circle(self.robot.get_position(), self.robot.radius, fill=True, color='r'))
+            self.ax.add_artist(plt.Circle(self.robot.get_goal_position(), self.robot.radius, fill=True, color='g'))
             plt.draw()
             plt.pause(0.001)
             plt.cla()
