@@ -343,6 +343,7 @@ class CrowdSim:
                 human_circle = plt.Circle(human.get_position(), human.radius, fill=False, color='b')
                 self.ax.add_artist(human_circle)
             self.ax.add_artist(plt.Circle(self.robot.get_position(), self.robot.radius, fill=True, color='r'))
+            self.ax.add_artist(plt.Circle((self.robot.gx, self.robot.gy), self.robot.radius, fill=True, color='g'))
             # x, y, theta = self.robot.px, self.robot.py, self.robot.theta
             # dx = cos(theta)
             # dy = sin(theta)
