@@ -21,7 +21,7 @@ class Explorer(object):
 
     # @profile
     def run_k_episodes(self, k, phase, update_memory=False, imitation_learning=False, episode=None, epoch=None,
-                       print_failure=False):
+                       print_failure=False, render=False):
         self.robot.policy.set_phase(phase)
         success_times = []
         collision_times = []
@@ -46,6 +46,8 @@ class Explorer(object):
 
         for i in range(k):
             ob = self.env.reset(phase)
+            if render:
+                self.env.render()
             done = False
             states = []
             actions = []
@@ -53,6 +55,8 @@ class Explorer(object):
             while not done:
                 action = self.robot.act(ob)
                 ob, reward, done, info = self.env.step(action)
+                if render:
+                    self.env.render()
                 states.append(self.robot.policy.last_state)
                 actions.append(action)
                 rewards.append(reward)
