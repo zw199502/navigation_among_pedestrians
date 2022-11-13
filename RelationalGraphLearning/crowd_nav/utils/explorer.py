@@ -112,8 +112,8 @@ class Explorer(object):
             if self.memory is not None:
                 logging.info('Steps: {:d}, Frequency of being in danger: {:.2f} and average min separate distance in danger: {:.2f}'.
                          format(self.memory.count, discomfort / total_time, average(min_dist)))
-            self.success_rate_array.append(np.array([self.memory.count, success_rate]))
-            np.savetxt(self.name + '_success_rate.txt', np.array(self.success_rate_array))
+                self.success_rate_array.append(np.array([self.memory.count, success_rate]))
+                np.savetxt(self.name + '_success_rate.txt', np.array(self.success_rate_array))
 
         if print_failure:
             logging.info('Collision cases: ' + ' '.join([str(x) for x in collision_cases]))
