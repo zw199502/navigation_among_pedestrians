@@ -1,0 +1,146 @@
+defaults:
+
+  # Train Script
+  logdir: ./logdir
+  seed: 0
+  gpu: 2
+  ORCA: False
+  steps: 1e8
+  log_every: 1e4
+  eval_every: 1e4
+  eval_eps: 100
+  prefill: 5000
+  pretrain: 100
+  train_every: 5
+  train_steps: 5
+  expl_until: 0
+  replay: {capacity: 4e5, ongoing: False, minlen: 3, maxlen: 50, prioritize_ends: False}
+  dataset: {batch: 32, length: 32}
+  log_keys_video: ['image']
+  log_keys_sum: '^$'
+  log_keys_mean: '^$'
+  log_keys_max: '^$'
+  precision: 16
+  jit: True
+
+  # environment
+  scenario: simulation
+  render_size: [128, 128]
+  time_step: 0.2
+  time_limit: 100
+  motion_area: 10.0
+  initial_min_goal_dis: 0.3
+  goal_reach_larger_dis: 0.5
+  success_file: success_rate_2
+  human_num_max: 5
+  goal_reward_factor: 0.8
+  collision_reward: -0.6
+  collision_reward_factor: -0.6
+  outside_reward: -0.1
+  randomize_attributes: False
+  random_robot: False
+  random_human_num: False
+  real_world: False
+  robot_radius: 0.3
+  robot_shape: [0.3, 0.5]
+  human_radius: 0.3
+  max_human_speed: 1.0
+  max_robot_speed: 1.0
+  max_robot_sidespeed: 1.0
+  inflation_grid: [240, 230, 220, 200, 180, 160, 130, 100, 70, 40, 10]
+  # keep goal_position constant
+  # the initial robot position can be random
+  goal_position: [1.0, 0.0]
+  safety_space: 0.2
+  
+
+  # Agent
+  clip_rewards: identity
+  expl_behavior: greedy
+  expl_noise: 0.0
+  eval_noise: 0.0
+  eval_state_mean: False
+
+  # World Model
+  grad_heads: [image, reward, discount]
+  pred_discount: True
+  rssm: {ensemble: 1, hidden: 200, deter: 200, stoch: 32, discrete: 32, act: elu, norm: none, std_act: sigmoid2, min_std: 0.1}
+  # image size 64 * 64
+  encoder: {mlp_keys: '.*', cnn_keys: '.*', act: elu, norm: none, cnn_depth: 48, cnn_kernels: [4, 4, 4, 4], mlp_layers: [400, 400, 400, 400]}
+  decoder: {mlp_keys: '.*', cnn_keys: '.*', act: elu, norm: none, cnn_depth: 48, cnn_kernels: [5, 5, 6, 6], mlp_layers: [400, 400, 400, 400]}
+  reward_head: {layers: 4, units: 400, act: elu, norm: none, dist: mse}
+  discount_head: {layers: 4, units: 400, act: elu, norm: none, dist: binary}
+  loss_scales: {kl: 1.0, reward: 1.0, discount: 1.0, proprio: 1.0}
+  kl: {free: 1.0, forward: False, balance: 0.8, free_avg: True}
+  model_opt: {opt: adam, lr: 1e-4, eps: 1e-5, clip: 100, wd: 1e-6}
+
+  # Actor Critic
+  actor: {layers: 4, units: 400, act: elu, norm: none, dist: auto, min_std: 0.1}
+  critic: {layers: 4, units: 400, act: elu, norm: none, dist: mse}
+  actor_opt: {opt: adam, lr: 8e-5, eps: 1e-5, clip: 100, wd: 1e-6}
+  critic_opt: {opt: adam, lr: 2e-4, eps: 1e-5, clip: 100, wd: 1e-6}
+  discount: 0.99
+  discount_lambda: 0.95
+  imag_horizon: 15
+  actor_grad: auto
+  actor_grad_mix: 0.1
+  actor_ent: 2e-3
+  slow_target: True
+  slow_target_update: 100
+  slow_target_fraction: 1
+  slow_baseline: True
+  reward_norm: {momentum: 1.0, scale: 1.0, eps: 1e-8}
+
+  # Exploration
+  expl_intr_scale: 1.0
+  expl_extr_scale: 0.0
+  expl_opt: {opt: adam, lr: 3e-4, eps: 1e-5, clip: 100, wd: 1e-6}
+  expl_head: {layers: 4, units: 400, act: elu, norm: none, dist: mse}
+  expl_reward_norm: {momentum: 1.0, scale: 1.0, eps: 1e-8}
+  disag_target: stoch
+  disag_log: False
+  disag_models: 10
+  disag_offset: 1
+  disag_action_cond: True
+  expl_model_loss: kl
+
+offline:
+  rssm.ensemble: 7   
+  ORCA: True
+
+online:
+  ORCA: False
+
+physical_world:
+  ORCA: False
+  render_size: [128, 128]
+  motion_area: 6.0
+  inflation_grid: [200, 160, 100, 40]
+  # please keep human_num_max as 3
+  # because we assume that the maximum human number
+  # in the real world is 3
+  human_num_max: 3
+  robot_radius: 0.25
+  max_human_speed: 0.3
+  max_robot_speed: 0.3
+  max_robot_sidespeed: 0.27
+  # real_robot_external_localization
+  # real_robot_loam
+  scenario: real_robot_external_localization
+  randomize_attributes: True
+  random_human_num: True
+  random_robot: True
+  initial_min_goal_dis: 0.2
+  goal_reach_larger_dis: 0.3
+  success_file: success_rate_real_1
+  # if implementing real experiments, set real_world as True
+  real_world: False
+  # in real world, please set your own goal position
+  goal_position: [1.0, 0.0]
+
+
+
+online_orca:
+  prefill: 50000
+  pretrain: 5000
+  ORCA: True
