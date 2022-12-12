@@ -302,7 +302,7 @@ void laserCloudHandler(const sensor_msgs::PointCloud2ConstPtr &laserCloudMsg)
                 // Downsample the point cloud to lower memory usage and faster processing
                 pcl::VoxelGrid<PointType> voxel_grid_filter;
                 voxel_grid_filter.setInputCloud(cloud);
-                voxel_grid_filter.setLeafSize (0.02f, 0.02f, 0.02f); // voxel size
+                voxel_grid_filter.setLeafSize (0.02f, 0.02f, 0.02f); // voxel size, perhaps 0.06 is better
                 voxel_grid_filter.filter(*cloud_filtered); 
                 // Create clusters of obstacle from raw points
                 std::vector<pcl::PointCloud<PointType>::Ptr> clusters = create_clusters(cloud_filtered);
