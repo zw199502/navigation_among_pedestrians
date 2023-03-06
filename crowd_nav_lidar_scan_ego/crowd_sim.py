@@ -66,7 +66,7 @@ class CrowdSim:
         self.fig, self.ax = plt.subplots(figsize=(7, 7))
         
     def configure(self):
-        self.time_limit = 100
+        self.time_limit = 20
         self.time_step = 0.2
         self.randomize_attributes = False
         self.success_reward = 1.0
