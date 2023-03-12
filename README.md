@@ -40,6 +40,7 @@ cadrl.py, lstm_rl.py, sarl.py, and rgl.py are configuration with fixed human num
 - test the model ```python test.py --policy rgl```, change the model directory ```parser.add_argument('-m', '--model_dir', type=str, default='/data/rgl')```, select the network weights ```model_weights = os.path.join(args.model_dir, 'rl_model_4.pth')```
 
 ### MRLCF
+- tensorflow-gpu
 - train your model, ```python train.py --logdir ./logdir/online/1 --configs online```, another configs 'quadruped_motion_capture' is used for a quadruped robot. if your want to use your own robots, please revise the configs.yaml
 - visualize the training, ```tensorboard --logdir ./logdir```
 
