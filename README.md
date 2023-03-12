@@ -9,7 +9,6 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - tensorflow-gpu, version >= 2.4
 - tensorflow-probability, the version should match the version of tensorflow
 - Python-RVO2,https://github.com/sybrenstuvel/Python-RVO2, only Linux supported
-- socialforce
 - rospks, if you want to use ROS to deploy your algorithm on mobile robots
 - ros-navigation and ros-gmapping, optional
 - LCM, if you use Unitree A1, https://github.com/unitreerobotics/unitree_legged_sdk/tree/v3.3.4
@@ -28,12 +27,15 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - train your model, ```python train.py```
 - test, ```python test.py```, load your own network weights ```model_weight_file = os.path.join(args.output_dir, 'weight_episode_12000.h5')```
 
-### RelationalGraphLearning
+### CADRL_LSTMRL_SARL_RGL
 - enter the fold RelationalGraphLearning and install the project, ```pip install -e .```
 - select whether to use imitation learning or not in the crowd_nav/train.py file, ```parser.add_argument('--il_random', default=False, action='store_true')```
-- revise the log file name in crowd_nav/train.py file, ```parser.add_argument('--output_dir', type=str, default='data/sarl')```
-- train your model in the directory crowd_nav, ```python train.py --policy rgl```, you can replace the rgl with sarl, cadrl, and lstm_rl
-- test the model ```python test.py --policy rgl --config configs/icra_benchmark/rgl.py```, change the model directory ```parser.add_argument('-m', '--model_dir', type=str, default='/data_rgl_il/rgl')```, select the network weights ```model_weights = os.path.join(args.model_dir, 'rl_model_4.pth')```
+- revise the log file name in crowd_nav/train.py file, ```parser.add_argument('--output_dir', type=str, default='data/cadrl')```
+- choose config type in crowd_nav/train.py file, ```parser.add_argument('--config', type=str, default='configs/icra_benchmark/cadrl.py')```,
+cadrl.py, lstm_rl.py, sarl.py, and rgl.py are configuration with fixed human number, cadrl_real.py, lstm_rl_real.py, and rgl_real.py are configuration with variable human number, please note that sarl does not allow variable human number
+- set initial imitation learning episodes in crowd_nav/configs/icra_benchmark/config.py(or config_real.py), ```imitation_learning.il_episodes = 2000```
+- train your model in the directory crowd_nav, ```python train.py --policy cadrl```, you can replace the rgl with sarl, cadrl, and lstm_rl
+- test the model ```python test.py --policy rgl```, change the model directory ```parser.add_argument('-m', '--model_dir', type=str, default='/data/rgl')```, select the network weights ```model_weights = os.path.join(args.model_dir, 'rl_model_4.pth')```
 
 ### MRLCF
 - train your model, ```python train.py --logdir ./logdir/online/1 --configs online```, another configs 'quadruped_motion_capture' is used for a quadruped robot. if your want to use your own robots, please revise the configs.yaml
