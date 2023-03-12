@@ -9,6 +9,7 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - tensorflow-gpu, version >= 2.4
 - tensorflow-probability, the version should match the version of tensorflow
 - Python-RVO2,https://github.com/sybrenstuvel/Python-RVO2, only Linux supported
+- socialforce
 - rospks, if you want to use ROS to deploy your algorithm on mobile robots
 - ros-navigation and ros-gmapping, optional
 - LCM, if you use Unitree A1, https://github.com/unitreerobotics/unitree_legged_sdk/tree/v3.3.4
