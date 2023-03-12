@@ -47,6 +47,14 @@ cadrl.py, lstm_rl.py, sarl.py, and rgl.py are configuration with fixed human num
 - run orca policy, ```python ORCA_policy.py```
 - change the human number in crowd_sim.py, ```self.human_num = 5```
 
+### RNN_RL
+- pytorch-gpu
+- enter the directory C_library and compile the cython file
+```python setup.py build_ext --inplace```. This Cython file is used to simulate Lidar scan. If any error happens, please compile this library within the base environment of anaconda
+- configure environment, main.py ```parser.add_argument("--complex_env", default=False, action="store_true")```, false means simple environment with fixed human number, true means complex environment with variable human number and static obstacle number; humans are circles and static obstacles are rectangle
+- train your model, python main.py, set ```parser.add_argument("--load_model", type=str, default="")``` and ```parser.add_argument("--test", default=False, action="store_true")```
+- test your model, python main.py, set ```parser.add_argument("--load_model", type=str, default="/models/step_60000")``` and ```parser.add_argument("--test", default=True, action="store_true")```
+
 ### unitree_legged_sdk
 - this is a ros package, please compile it with ```catkin_make```
 - motion_capture.launch, if you have a motion capture system to localize the robot
