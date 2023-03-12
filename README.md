@@ -19,6 +19,7 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 
 # fold introduction
 ### crowd_nav_lidar_scan_ego
+- tensorflow-gpu
 - enter the directory C_library and compile the cython file
 ```python setup.py build_ext --inplace```. This Cython file is used to simulate Lidar scan. If any error happens, please compile this library within the base environment of anaconda
 - revise the configuration from train.py
@@ -28,6 +29,7 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - test, ```python test.py```, load your own network weights ```model_weight_file = os.path.join(args.output_dir, 'weight_episode_12000.h5')```
 
 ### CADRL_LSTMRL_SARL_RGL
+- pytorch-cpu, gpu is not supported
 - enter the fold RelationalGraphLearning and install the project, ```pip install -e .```
 - select whether to use imitation learning or not in the crowd_nav/train.py file, ```parser.add_argument('--il_random', default=False, action='store_true')```
 - revise the log file name in crowd_nav/train.py file, ```parser.add_argument('--output_dir', type=str, default='data/cadrl')```
