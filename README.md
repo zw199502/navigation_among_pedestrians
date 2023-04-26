@@ -59,6 +59,12 @@ cadrl.py, lstm_rl.py, sarl.py, and rgl.py are configuration with fixed human num
 - train your model, python main.py, set ```parser.add_argument("--load_model", type=str, default="")``` and ```parser.add_argument("--test", default=False, action="store_true")```
 - test your model, python main.py, set ```parser.add_argument("--load_model", type=str, default="/models/step_60000")``` and ```parser.add_argument("--test", default=True, action="store_true")```
 
+### RNN_RL_RAL_Image
+- pytorch-gpu
+- RNN_RL baseline uses perceptual LiDAR scans as the observation, whereas RNN_RL_RAL_Image baseline leverages Bird-View occupation maps, same as the observations of our approach.
+- train your model, ```python main.py```
+- It only supports the training in simple environments having fixed human number.
+
 ### unitree_legged_sdk
 - this is a ros package, please compile it with ```catkin_make```
 - motion_capture.launch, if you have a motion capture system to localize the robot
