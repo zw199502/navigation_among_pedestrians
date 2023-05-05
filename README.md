@@ -32,6 +32,7 @@ We proposed a model-based deep reinforcement learning algorithm for the navigati
 - test, ```python test.py```, load your own network weights ```model_weight_file = os.path.join(args.output_dir, 'weight_episode_12000.h5')```
 
 ### CADRL_LSTMRL_SARL_RGL
+- codes are based on the open-source solution from https://github.com/ChanganVR/RelationalGraphLearning
 - pytorch-cpu, gpu is not supported
 - enter the fold RelationalGraphLearning and install the project, ```pip install -e .```
 - select whether to use imitation learning or not in the crowd_nav/train.py file, ```parser.add_argument('--il_random', default=False, action='store_true')```
@@ -43,6 +44,7 @@ cadrl.py, lstm_rl.py, sarl.py, and rgl.py are configuration with fixed human num
 - test the model ```python test.py --policy rgl```, change the model directory ```parser.add_argument('-m', '--model_dir', type=str, default='/data/rgl')```, select the network weights ```model_weights = os.path.join(args.model_dir, 'rl_model_4.pth')```
 
 ### MRLCF
+- codes are based on the open-source solution from https://github.com/danijar/dreamerv2
 - tensorflow-gpu
 - train your model, ```python train.py --logdir ./logdir/online/1 --configs online```, another configs 'quadruped_motion_capture' is used for a quadruped robot. if your want to use your own robots, please revise the configs.yaml
 - visualize the training, ```tensorboard --logdir ./logdir```
@@ -52,6 +54,7 @@ cadrl.py, lstm_rl.py, sarl.py, and rgl.py are configuration with fixed human num
 - change the human number in crowd_sim.py, ```self.human_num = 5```
 
 ### RNN_RL
+- codes are based on the open-source solution from https://github.com/AntoineTheb/RNN-RL
 - pytorch-gpu
 - enter the directory C_library and compile the cython file
 ```python setup.py build_ext --inplace```. This Cython file is used to simulate Lidar scan. If any error happens, please compile this library within the base environment of anaconda
@@ -60,6 +63,7 @@ cadrl.py, lstm_rl.py, sarl.py, and rgl.py are configuration with fixed human num
 - test your model, python main.py, set ```parser.add_argument("--load_model", type=str, default="/models/step_60000")``` and ```parser.add_argument("--test", default=True, action="store_true")```
 
 ### RNN_RL_RAL_Image
+- codes are based on the open-source solution from https://github.com/AntoineTheb/RNN-RL
 - pytorch-gpu
 - RNN_RL baseline uses perceptual LiDAR scans as the observation, whereas RNN_RL_RAL_Image baseline leverages Bird-View occupation maps, same as the observations of our approach.
 - train your model, ```python main.py```
@@ -74,6 +78,7 @@ cadrl.py, lstm_rl.py, sarl.py, and rgl.py are configuration with fixed human num
 - please run the launch file in the ```sudo su``` mode to get the permission of memory
 
 ### A_LOAM
+- codes are based on the open-source solution from https://github.com/HKUST-Aerial-Robotics/A-LOAM
 - it is a ros package, please compile it with ```catkin_make```
 - aloam_velodyne_VLP16.launch, SLAM algorithm in 3D space to localize the robot
 - human_detection.launch, detect humans on a specific area and localize the robot.
