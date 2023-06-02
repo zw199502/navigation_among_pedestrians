@@ -47,23 +47,10 @@ class CrowdSim:
         self.case_size = None
         self.case_counter = None
         self.randomize_attributes = None
-        self.lines = None # environment margin
         self.circles = None # human margin
         self.circle_radius = None
         self.human_num = None
 
-        # scan_intersection, each line connects the robot and the end of each laser beam
-        self.scan_intersection = None # used for visualization
-
-        # laser state
-        self.scan_current = np.zeros(n_laser, dtype=np.float32)
-        self.scan_last_1 = np.zeros(n_laser, dtype=np.float32)
-        self.scan_last_2 = np.zeros(n_laser, dtype=np.float32)
-        self.scan_last_3 = np.zeros(n_laser, dtype=np.float32)
-        self.scan_end_current = np.zeros((n_laser, 2), dtype=np.float32)
-        self.scan_end_last_1 = np.zeros((n_laser, 2), dtype=np.float32)
-        self.scan_end_last_2 = np.zeros((n_laser, 2), dtype=np.float32)
-        self.scan_end_last_3 = np.zeros((n_laser, 2), dtype=np.float32)
 
         plt.ion()
         plt.show()
@@ -83,13 +70,6 @@ class CrowdSim:
         self.case_capacity = {'train': np.iinfo(np.uint32).max - 2000, 'val': 1000, 'test': 1000}
         self.case_size = {'train': np.iinfo(np.uint32).max - 2000, 'val': 100, 'test': 500}
 
-        # margin = square_width / 2.0
-        margin = 35.0  
-        # here, more lines can be added to simulate obstacles
-        self.lines = [[(-margin, -margin), (-margin,  margin)], \
-                        [(-margin,  margin), ( margin,  margin)], \
-                        [( margin,  margin), ( margin, -margin)], \
-                        [( margin, -margin), (-margin, -margin)]]
         self.circle_radius = 4.0
         self.human_num = 5
 
@@ -98,12 +78,12 @@ class CrowdSim:
 
         self.case_counter = {'train': 0, 'test': 0, 'val': 0}
 
-        logging.info('human number: {}'.format(self.human_num))
+        print('human number: {}'.format(self.human_num))
         if self.randomize_attributes:
-            logging.info("Randomize human's radius and preferred speed")
+            print("Randomize human's radius and preferred speed")
         else:
-            logging.info("Not randomize human's radius and preferred speed")
-        logging.info('Square width: {}, circle width: {}'.format(square_width, self.circle_radius))
+            print("Not randomize human's radius and preferred speed")
+        print('Square width: {}, circle width: {}'.format(square_width, self.circle_radius))
         
     def generate_random_human_position(self):
         # initial min separation distance to avoid danger penalty at beginning
@@ -146,70 +126,6 @@ class CrowdSim:
         human.set(px, py, -px, -py, 0, 0, 0)
         return human
 
-    def get_lidar(self, isReset=False):
-        scan = np.zeros(n_laser, dtype=np.float32)
-        scan_end = np.zeros((n_laser, 2), dtype=np.float32)
-        self.circles = np.zeros((self.human_num, 3), dtype=np.float32)
-        # here, more circles can be added to simulate obstacles
-        for i in range(self.human_num):
-            self.circles[i, :] = np.array([self.humans[i].px, self.humans[i].py, self.humans[i].radius])
-        robot_pose = np.array([self.robot.px, self.robot.py, self.robot.theta])
-        num_line = len(self.lines)
-        num_circle = self.human_num
-        InitializeEnv(num_line, num_circle, n_laser, laser_angle_resolute)
-        for i in range (num_line):
-            set_lines(4 * i    , self.lines[i][0][0])
-            set_lines(4 * i + 1, self.lines[i][0][1])
-            set_lines(4 * i + 2, self.lines[i][1][0])
-            set_lines(4 * i + 3, self.lines[i][1][1])
-        for i in range (num_circle):
-            set_circles(3 * i    , self.humans[i].px)
-            set_circles(3 * i + 1, self.humans[i].py)
-            set_circles(3 * i + 2, self.humans[i].radius)
-        set_robot_pose(robot_pose[0], robot_pose[1], robot_pose[2])
-        cal_laser()
-        self.scan_intersection = []
-        for i in range(n_laser):
-            scan[i] = get_scan(i)
-            scan_end[i, :] = np.array([get_scan_line(4 * i + 2), get_scan_line(4 * i + 3)])
-            ### used for visualization
-            self.scan_intersection.append([(get_scan_line(4 * i + 0), get_scan_line(4 * i + 1)), \
-                                           (get_scan_line(4 * i + 2), get_scan_line(4 * i + 3))])
-            ### used for visualization
-        
-        #### proposed method ####
-        if isReset:
-            self.scan_current = np.clip(scan, laser_min_range, laser_max_range) / laser_max_range
-            self.scan_end_current = np.copy(scan_end)
-            self.scan_last_1 = np.copy(self.scan_current)
-            self.scan_last_2 = np.copy(self.scan_current)
-            self.scan_last_3 = np.copy(self.scan_current)
-            self.scan_end_last_1 = np.copy(self.scan_end_current)
-            self.scan_end_last_2 = np.copy(self.scan_end_current)
-            self.scan_end_last_3 = np.copy(self.scan_end_current)
-        else:
-            for i in range(n_laser):
-                set_scan_end_last(self.scan_end_current[i, 0], self.scan_end_current[i, 1], i, 1)
-                set_scan_end_last(self.scan_end_last_1[i, 0], self.scan_end_last_1[i, 1], i, 2)
-                set_scan_end_last(self.scan_end_last_2[i, 0], self.scan_end_last_2[i, 1], i, 3)
-            transform_scan_last()    
-            for i in range(n_laser):
-                self.scan_last_1[i] = get_last_scan(i, 1)
-                self.scan_last_2[i] = get_last_scan(i, 2)
-                self.scan_last_3[i] = get_last_scan(i, 3)
-            self.scan_last_3 = np.clip(self.scan_last_3, laser_min_range, laser_max_range) / laser_max_range
-            self.scan_last_2 = np.clip(self.scan_last_2, laser_min_range, laser_max_range) / laser_max_range
-            self.scan_last_1 = np.clip(self.scan_last_1, laser_min_range, laser_max_range) / laser_max_range            
-            self.scan_current = np.clip(scan, laser_min_range, laser_max_range) / laser_max_range
-
-            self.scan_end_last_3 = np.copy(self.scan_end_last_2)
-            self.scan_end_last_2 = np.copy(self.scan_end_last_1)
-            self.scan_end_last_1 = np.copy(self.scan_end_current)
-            self.scan_end_current = np.copy(scan_end)
-        #### proposed method ####
-
-        ReleaseEnv()
-
     def reset(self, phase='test'):
         assert phase in ['train', 'val', 'test']
         self.global_time = 0
@@ -230,10 +146,7 @@ class CrowdSim:
         else:
             raise NotImplementedError
 
-        self.get_lidar(isReset=True)
-
         # get the observation
-        ob_lidar = np.hstack((self.scan_current, self.scan_last_1, self.scan_last_2, self.scan_last_3))
         dx = self.robot.gx - self.robot.px
         dy = self.robot.gy - self.robot.py
         theta = self.robot.theta
@@ -246,7 +159,7 @@ class CrowdSim:
                                self.robot.gx, self.robot.gy, self.robot.v_pref, self.robot.theta)
         ob_state = [human.get_observable_state() for human in self.humans]
         ob_coordinate = JointState(self_state, ob_state)
-        return ob_lidar, ob_position, ob_coordinate
+        return ob_position, ob_coordinate
 
     def step(self, action):
         human_actions = []
@@ -262,7 +175,6 @@ class CrowdSim:
             self.humans[i].update_states(human_action)
 
         # get new laser scan and grid map
-        self.get_lidar()  
         self.global_time += self.time_step
         
         # if reaching goal
@@ -281,9 +193,13 @@ class CrowdSim:
 
         # collision detection between the robot and humans
         collision = False
-        dmin = (self.scan_current * laser_max_range).min()
-        if dmin <= self.robot.radius:
-            collision = True
+        dist_robot = self.discomfort_dist
+        for i in range(self.human_num):
+            dx = self.humans[i].px - self.robot.px
+            dy = self.humans[i].py - self.robot.py
+            dist_robot = (dx ** 2 + dy ** 2) ** (1 / 2) - self.humans[i].radius - self.robot.radius
+            if dist_robot < 0:
+                collision = True
 
         reward = 0
         if self.global_time >= self.time_limit - 1:
@@ -294,11 +210,11 @@ class CrowdSim:
             reward = self.collision_penalty
             done = True
             info = Collision()
-        elif ((dmin - self.robot.radius) < self.discomfort_dist):
+        elif (dist_robot < self.discomfort_dist):
             # penalize agent for getting too close 
-            reward = (dmin - self.robot.radius - self.discomfort_dist) * self.discomfort_penalty_factor * self.time_step
+            reward = (dist_robot - self.discomfort_dist) * self.discomfort_penalty_factor * self.time_step
             done = False
-            info = Danger(dmin)
+            info = Danger(dist_robot)
         else:
             reward = 0
             done = False
@@ -319,7 +235,6 @@ class CrowdSim:
                 self.humans[i].gy = -self.humans[i].gy
 
         # get the observation
-        ob_lidar = np.hstack((self.scan_current, self.scan_last_1, self.scan_last_2, self.scan_last_3))
         dx = self.robot.gx - self.robot.px
         dy = self.robot.gy - self.robot.py
         theta = self.robot.theta
@@ -332,39 +247,32 @@ class CrowdSim:
                                self.robot.gx, self.robot.gy, self.robot.v_pref, self.robot.theta)
         ob_state = [human.get_observable_state() for human in self.humans]
         ob_coordinate = JointState(self_state, ob_state)
-        return ob_lidar, ob_position, ob_coordinate, reward, done, info
+        return ob_position, ob_coordinate, reward, done, info
 
-    def render(self, mode='laser'):
-        if mode == 'laser':
-            self.ax.set_xlim(-5.0, 5.0)
-            self.ax.set_ylim(-5.0, 5.0)
-            for human in self.humans:
-                human_circle = plt.Circle(human.get_position(), human.radius, fill=False, color='b')
-                self.ax.add_artist(human_circle)
-            self.ax.add_artist(plt.Circle(self.robot.get_position(), self.robot.radius, fill=True, color='r'))
-            self.ax.add_artist(plt.Circle((self.robot.gx, self.robot.gy), self.robot.radius, fill=True, color='g'))
-            plt.text(-4.5, -4.5, str(round(self.global_time, 2)), fontsize=20)
-            # x, y, theta = self.robot.px, self.robot.py, self.robot.theta
-            # dx = cos(theta)
-            # dy = sin(theta)
-            # self.ax.arrow(x, y, dx, dy,
-            #     width=0.01,
-            #     length_includes_head=True, 
-            #     head_width=0.15,
-            #     head_length=1,
-            #     fc='r',
-            #     ec='r')
-            # ii = 0
-            # lines = []
-            # while ii < n_laser:
-            #     lines.append(self.scan_intersection[ii])
-            #     ii = ii + 36
-            # lc = mc.LineCollection(lines)
-            # self.ax.add_collection(lc)
-            if self.count == 3:
-                self.ax.add_artist(plt.Circle((0.0, 4.0), 0.3, fill=True, color='g'))
-                plt.savefig('fig_goal.png')
-            self.count = self.count + 1
-            plt.draw()
-            plt.pause(0.001)
-            plt.cla()
+    def render(self):
+        self.ax.set_xlim(-5.0, 5.0)
+        self.ax.set_ylim(-5.0, 5.0)
+        for human in self.humans:
+            human_circle = plt.Circle(human.get_position(), human.radius, fill=False, color='b')
+            self.ax.add_artist(human_circle)
+        self.ax.add_artist(plt.Circle(self.robot.get_position(), self.robot.radius, fill=True, color='r'))
+        self.ax.add_artist(plt.Circle((self.robot.gx, self.robot.gy), self.robot.radius, fill=True, color='g'))
+        plt.text(-4.5, -4.5, str(round(self.global_time, 2)), fontsize=20)
+        # x, y, theta = self.robot.px, self.robot.py, self.robot.theta
+        # dx = cos(theta)
+        # dy = sin(theta)
+        # self.ax.arrow(x, y, dx, dy,
+        #     width=0.01,
+        #     length_includes_head=True, 
+        #     head_width=0.15,
+        #     head_length=1,
+        #     fc='r',
+        #     ec='r')
+        
+        # if self.count == 3:
+        #     self.ax.add_artist(plt.Circle((0.0, 4.0), 0.3, fill=True, color='g'))
+        #     plt.savefig('fig_goal.png')
+        self.count = self.count + 1
+        plt.draw()
+        plt.pause(0.001)
+        plt.cla()
