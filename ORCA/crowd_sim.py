@@ -11,7 +11,6 @@ from policy.policy_factory import policy_factory
 from info import *
 from math import atan2, hypot, sqrt, cos, sin, fabs, inf, ceil
 from time import sleep, time
-from C_library.motion_plan_lib import *
 
 # laser scan parameters
 # number of all laser beams
