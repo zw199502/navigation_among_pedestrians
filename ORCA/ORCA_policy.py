@@ -4,14 +4,12 @@ import argparse
 import os
 import shutil
 import numpy as np
-import tensorflow as tf
 from crowd_sim import CrowdSim
 from info import *
 from policy.policy_factory import policy_factory
 from math import fabs
 import time
 
-tf.keras.backend.set_floatx('float32')
 
 
 def run_k_episodes(k, phase):
