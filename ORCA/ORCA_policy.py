@@ -11,7 +11,6 @@ from math import fabs
 import time
 
 
-
 def run_k_episodes(k, phase):
     success_times = []
     collision_times = []
@@ -24,21 +23,22 @@ def run_k_episodes(k, phase):
     collision_cases = []
     timeout_cases = []
     for i in range(k):
-        lidar, position, ob_coordinate = env.reset(phase)
+        position, ob_coordinate = env.reset(phase)
         env.render()
         done = False
         while not done:
             # t1 = time.time()
             action = im_policy.predict(ob_coordinate)
-            next_lidar, next_position, next_ob_coordinate, reward, done, info = env.step(action)
+            next_position, next_ob_coordinate, reward, done, info = env.step(action)
             env.render()
-            lidar, position = next_lidar, next_position
+            position = next_position
             ob_coordinate = next_ob_coordinate
 
             if isinstance(info, Danger):
                 too_close += 1
                 min_dist.append(info.min_dist)
-            time.sleep(env.time_step - 0.1)
+            time.sleep(env.time_step)
+            env.render()
             # t2 = time.time()
             # print(t2 - t1)
 
